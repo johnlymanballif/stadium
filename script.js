@@ -264,11 +264,31 @@ document.addEventListener('DOMContentLoaded', () => {
             progressRing.classList.add('complete');
             completeDayBtn.classList.add('active');
             if (count === 3) {
-                // Trigger celebration animation
-                document.querySelector('.progress-ring-container').classList.add('celebrate');
-                setTimeout(() => {
-                    document.querySelector('.progress-ring-container').classList.remove('celebrate');
-                }, 1000);
+                // Fire confetti
+                const duration = 1 * 1000;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 2,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                    });
+                    confetti({
+                        particleCount: 2,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+                
+                // Automatically complete the day
+                completeDay();
             }
         } else {
             progressRing.classList.remove('complete');
