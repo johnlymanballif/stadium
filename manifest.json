@@ -1,0 +1,21 @@
+{
+  "name": "Stadium Outreach Tracker",
+  "short_name": "Stadium",
+  "description": "A daily tracker for cold email outreach.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#1C1C1E",
+  "theme_color": "#007AFF",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

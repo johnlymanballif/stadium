@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outreach Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007AFF">
+</head>
+<body>
+    <div class="top-bar">
+        <button class="theme-toggle" id="themeToggle">
+            <span id="themeIcon">🌙</span>
+        </button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="date" id="currentDate"></div>
+            <h1>Daily Outreach</h1>
+            <div class="streak">🔥 <span id="streakCount">0</span> day streak</div>
+        </div>
+
+        <!-- Progress Ring -->
+        <div class="progress-card">
+            <div class="progress-ring-container">
+                <div class="progress-ring">
+                    <svg width="180" height="180">
+                        <circle cx="90" cy="90" r="80" class="progress-ring-bg"></circle>
+                        <circle cx="90" cy="90" r="80" class="progress-ring-fill" id="progressRing"></circle>
+                    </svg>
+                    <div class="progress-text">
+                        <div class="progress-number" id="emailCount">0</div>
+                        <div class="progress-label">emails today</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Input -->
+            <div class="email-input-section">
+                <input type="text" class="email-input" id="emailInput" placeholder="Company or contact name..." />
+                <button class="add-email-btn" id="addEmailBtn">+</button>
+            </div>
+
+            <!-- Email List -->
+            <div class="email-list" id="emailList"></div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalEmails">0</div>
+                <div class="stat-label">Total Emails</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="workingDays">0</div>
+                <div class="stat-label">Working Days</div>
+            </div>
+        </div>
+
+        <!-- Client Progress Bar -->
+        <div class="client-progress-card">
+            <div class="client-progress-header">
+                <div class="client-progress-title">Progress to Next Client</div>
+                <div class="client-progress-count"><span id="clientCount">0</span> clients earned</div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="clientProgressBar"></div>
+            </div>
+            <div class="progress-stats">
+                <span><span id="emailsInCycle">0</span> / 50 emails</span>
+                <span>~<span id="expectedMeetings">0</span> meetings</span>
+            </div>
+        </div>
+
+        <!-- Calendar Heatmap -->
+        <div class="calendar-card">
+            <div class="calendar-header">This Month</div>
+            <div class="calendar-weekdays">
+                <div class="calendar-weekday">S</div>
+                <div class="calendar-weekday">M</div>
+                <div class="calendar-weekday">T</div>
+                <div class="calendar-weekday">W</div>
+                <div class="calendar-weekday">T</div>
+                <div class="calendar-weekday">F</div>
+                <div class="calendar-weekday">S</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+
+        <!-- Complete Day Button -->
+        <button class="complete-day-btn" id="completeDayBtn">Complete Today ✓</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
+</body>
+</html>
