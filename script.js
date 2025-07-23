@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         emailList.addEventListener('click', handleEmailListClick);
-        completeDayBtn.addEventListener('click', completeDay);
     }
 
     function logout() {
@@ -137,6 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderTheme() {
         document.body.className = state.theme;
         themeIcon.textContent = state.theme === 'dark' ? '☀️' : '🌙';
+        if (state.theme === 'dark') {
+            document.body.classList.add('dark');
+            document.body.classList.remove('light');
+        } else {
+            document.body.classList.add('light');
+            document.body.classList.remove('dark');
+        }
     }
 
     function renderDate() {
@@ -383,34 +389,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function completeDay() {
-        alert('Day marked as complete! Great job!');
-        showCompletionNotification();
-    }
-
     function requestNotificationPermission() {
         if ('Notification' in window) {
             Notification.requestPermission(status => {
                 console.log('Notification permission status:', status);
+                if (status === 'granted') {
+                    scheduleDailyNotifications();
+                }
             });
         }
     }
 
-    function showCompletionNotification() {
-        if (Notification.permission === 'granted') {
-            navigator.serviceWorker.getRegistration().then(reg => {
-                const options = {
-                    body: 'You have successfully completed your outreach for the day!',
-                    icon: 'icons/icon-192x192.png',
-                    vibrate: [100, 50, 100],
-                    data: {
-                        dateOfArrival: Date.now(),
-                        primaryKey: 1
-                    }
-                };
-                reg.showNotification('Day Complete!', options);
-            });
+    function scheduleDailyNotifications() {
+        if (Notification.permission !== 'granted') {
+            return;
         }
+
+        navigator.serviceWorker.ready.then(registration => {
+            const now = new Date();
+
+            const scheduleNotification = (hour, minute) => {
+                const notificationTime = new Date();
+                notificationTime.setHours(hour, minute, 0, 0);
+
+                if (now > notificationTime) {
+                    // If it's past the time for today, schedule for tomorrow
+                    notificationTime.setDate(notificationTime.getDate() + 1);
+                }
+
+                const delay = notificationTime.getTime() - now.getTime();
+
+                setTimeout(() => {
+                    registration.showNotification('STADIUM Reminder', {
+                        body: 'Time to open your PWA!',
+                        icon: 'icons/icon-192x192.png'
+                    });
+                    // Reschedule for the next day
+                    setInterval(() => {
+                        registration.showNotification('STADIUM Reminder', {
+                            body: 'Time to open your PWA!',
+                            icon: 'icons/icon-192x192.png'
+                        });
+                    }, 24 * 60 * 60 * 1000);
+                }, delay);
+            };
+
+            scheduleNotification(15, 0); // 3:00 PM
+            scheduleNotification(18, 0); // 6:00 PM
+        });
     }
 
     // Initial call

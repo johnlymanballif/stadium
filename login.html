@@ -3,226 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Outreach Tracker</title>
+    <title>Login - STADIUM</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
         .login-container {
             max-width: 400px;
-            margin: 100px auto;
-            text-align: center;
+            width: 100%;
+            padding: 2rem;
         }
-        
         .login-card {
             background: var(--bg-secondary);
             border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            text-align: center;
         }
-        
         .login-title {
-            font-size: 28px;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 0.5rem;
         }
-        
         .login-subtitle {
             color: var(--text-secondary);
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
         }
-        
         .login-input {
             width: 100%;
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 15px;
+            padding: 1rem;
             color: var(--text-primary);
-            font-size: 16px;
+            font-size: 1rem;
             outline: none;
-            transition: border-color 0.3s;
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
+            text-align: center;
         }
-        
-        .login-input:focus {
-            border-color: var(--accent-blue);
-        }
-        
         .login-button {
             width: 100%;
-            padding: 15px;
+            padding: 1rem;
             background: var(--accent-blue);
             border: none;
             border-radius: 12px;
             color: #fff;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
         }
-        
-        .login-button:hover {
-            background: #0051D5;
-            transform: translateY(-2px);
-        }
-        
-        .login-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
         .login-message {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 1.5rem;
+            padding: 1rem;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 0.9rem;
         }
-        
         .login-message.success {
             background: var(--accent-green);
             color: #fff;
         }
-        
         .login-message.error {
             background: var(--accent-red);
             color: #fff;
         }
-        
-        .magic-link-hint {
-            margin-top: 20px;
-            padding: 20px;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            border: 2px dashed var(--accent-blue);
-        }
-        
-        .magic-link-hint h3 {
-            margin-bottom: 10px;
-            color: var(--accent-blue);
-        }
-        
-        .test-link {
-            display: inline-block;
-            margin-top: 10px;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .test-link:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" id="themeToggle">
-        <span id="themeIcon">🌙</span>
-    </button>
-
     <div class="login-container">
         <div class="login-card">
-            <h1 class="login-title">Welcome Back</h1>
-            <p class="login-subtitle">Sign in to track your outreach</p>
+            <h1 class="login-title">STADIUM</h1>
+            <p class="login-subtitle">Enter your email to sign in</p>
             
             <form id="loginForm">
                 <input 
                     type="email" 
                     id="emailInput" 
                     class="login-input" 
-                    placeholder="Enter your email"
+                    placeholder="email@example.com"
                     required
                 />
                 <button type="submit" class="login-button" id="loginButton">
-                    Send Magic Link
+                    Sign In
                 </button>
             </form>
             
             <div id="messageDiv"></div>
-            
-            <!-- Demo Mode: Show magic link directly -->
-            <div id="demoMode" class="magic-link-hint" style="display: none;">
-                <h3>🎯 Demo Mode</h3>
-                <p>For testing, your magic link would be sent to: <strong id="demoEmail"></strong></p>
-                <p>In production, this would be emailed to you.</p>
-                <a href="#" id="testLink" class="test-link">Click here to simulate login →</a>
-            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Initialize Supabase - REPLACE WITH YOUR VALUES
-        const SUPABASE_URL = 'https://onwfrweefxxcimvzunjd.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ud2Zyd2VlZnh4Y2ltdnp1bmpkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyNDczMTQsImV4cCI6MjA2ODgyMzMxNH0.uLRXdtv3l1SyX8HFq1FHGY3rRR3akLpqCfTVRUjhUUg';
-        
-        const { createClient } = supabase;
-        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
-        // Theme management
-        const theme = localStorage.getItem('theme') || 'dark';
-        if (theme === 'light') {
-            document.body.classList.add('light-mode');
-            document.getElementById('themeIcon').textContent = '☀️';
-        }
-        
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            document.body.classList.toggle('light-mode');
-            const newTheme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
-            localStorage.setItem('theme', newTheme);
-            document.getElementById('themeIcon').textContent = newTheme === 'light' ? '☀️' : '🌙';
-        });
-        
-        // Check if already logged in
-        supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (session) {
-                window.location.href = 'index.html';
-            }
-        });
-        
-        // Handle login form
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('emailInput').value;
-            const button = document.getElementById('loginButton');
-            const messageDiv = document.getElementById('messageDiv');
-            
-            button.disabled = true;
-            button.textContent = 'Sending...';
-            
-            try {
-                const { error } = await supabaseClient.auth.signInWithOtp({
-                    email: email,
-                    options: {
-                        emailRedirectTo: window.location.origin + '/index.html'
-                    }
-                });
-                
-                if (error) throw error;
-                
-                // Show success message
-                messageDiv.className = 'login-message success';
-                messageDiv.textContent = '✨ Check your email for the magic link!';
-                
-                // Demo mode: show the link directly
-                document.getElementById('demoMode').style.display = 'block';
-                document.getElementById('demoEmail').textContent = email;
-                
-                // For demo: simulate the magic link login
-                document.getElementById('testLink').addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    // In production, this would be handled by the email link
-                    localStorage.setItem('demo_user', email);
-                    window.location.href = 'index.html';
-                });
-                
-            } catch (error) {
-                messageDiv.className = 'login-message error';
-                messageDiv.textContent = '❌ Error: ' + error.message;
-            } finally {
-                button.disabled = false;
-                button.textContent = 'Send Magic Link';
-            }
-        });
-    </script>
+    <script src="login.js"></script>
 </body>
 </html>
