@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Handle guest button
+    document.getElementById('guestButton').addEventListener('click', () => {
+        localStorage.setItem('demo_user', 'guest');
+        window.location.href = 'index.html';
+    });
+
     // Handle login form
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
