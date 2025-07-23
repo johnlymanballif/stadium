@@ -145,6 +145,10 @@
                 <p>In production, this would be emailed to you.</p>
                 <a href="#" id="testLink" class="test-link">Click here to simulate login →</a>
             </div>
+
+            <button class="login-button" id="guestButton" style="margin-top: 1rem; background-color: var(--bg-tertiary); color: var(--text-primary);">
+                Continue as Guest
+            </button>
         </div>
     </div>
 
@@ -178,6 +182,12 @@
             }
         });
         
+        // Handle guest button
+        document.getElementById('guestButton').addEventListener('click', () => {
+            localStorage.setItem('demo_user', 'guest');
+            window.location.href = 'index.html';
+        });
+
         // Handle login form
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
