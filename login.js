@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const { error } = await supabaseClient.auth.signInWithOtp({
                 email: email,
                 options: {
-                    emailRedirectTo: window.location.origin + '/index.html'
+                    emailRedirectTo: 'http://c0skskwg0c0wk40kkswk8w80.194.195.86.17.sslip.io/index.html'
                 }
             });
             
