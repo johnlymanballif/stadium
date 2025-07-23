@@ -1,6 +1,6 @@
 {
-  "name": "STADIUM",
-  "short_name": "STADIUM",
+  "name": "Stadium Outreach Tracker",
+  "short_name": "Stadium",
   "description": "A daily tracker for cold email outreach.",
   "start_url": "/index.html",
   "display": "standalone",
