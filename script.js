@@ -391,9 +391,36 @@ document.addEventListener('DOMContentLoaded', () => {
             dayEl.textContent = day;
 
             const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            if (state.completedDays[dateKey]) {
-                dayEl.classList.add('completed');
-                dayEl.dataset.tooltip = `${state.completedDays[dateKey].count} emails`;
+            const dayData = state.completedDays[dateKey];
+
+            if (dayData) {
+                const count = dayData.count;
+                let shadeClass = 'shade-1';
+                if (count >= 2 && count < 3) {
+                    shadeClass = 'shade-2';
+                } else if (count >= 3 && count < 4) {
+                    shadeClass = 'shade-3';
+                } else if (count >= 4) {
+                    shadeClass = 'shade-4';
+                }
+                dayEl.classList.add(shadeClass);
+                dayEl.dataset.tooltip = `${count} emails`;
+
+                dayEl.addEventListener('click', () => {
+                    const expandedEl = dayEl.querySelector('.prospect-list');
+                    if (expandedEl) {
+                        expandedEl.remove();
+                    } else {
+                        const prospectList = document.createElement('div');
+                        prospectList.className = 'prospect-list';
+                        dayData.emails.forEach(email => {
+                            const prospect = document.createElement('div');
+                            prospect.textContent = email.name;
+                            prospectList.appendChild(prospect);
+                        });
+                        dayEl.appendChild(prospectList);
+                    }
+                });
             }
 
             if (day === today.getDate()) {
